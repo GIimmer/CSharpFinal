@@ -1,0 +1,22 @@
+@model LoginValidator
+<div class="col-12">
+    <h3 class='mt-3'>Login Here!</h3>
+    <form action='/process/login' method='post' class="form-group">
+        <div class='row mt-4 mb-3'>
+            <label for='LoginUserName' class="col-2">Username:</label>
+            <input type="text" name="LoginUserName" class="col-4 rounded form-control">
+            <span asp-validation-for='LoginUserName' class='text-danger'></span>
+        </div>
+        <div class='row mb-3'>
+            <label for='LoginPassword' class="col-2">Password:</label>
+            <input type="password" name="LoginPassword" class="col-4 rounded form-control">
+            <span asp-validation-for='LoginPassword' class='text-danger'></span>
+            <button type="submit" value='submit' class="btn btn-success offset-7 col-2 mt-2">Login!</button>
+            @{
+                if(ViewBag.Error != null){
+                    <span class='text-danger'>@ViewBag.Error</span>
+                }
+            }
+        </div>
+    </form>
+</div>

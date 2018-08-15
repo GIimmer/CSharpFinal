@@ -1,0 +1,97 @@
+@model Product
+@using System;
+@using System.Collections.Generic;
+@functions{
+    public static string CreateTimeString(DateTime AuctionDT){
+        const int SECOND = 1;
+        const int MINUTE = 60 * SECOND;
+        const int HOUR = 60 * MINUTE;
+        const int DAY = 24 * HOUR;
+        const int MONTH = 30 * DAY;
+
+        var ts = new TimeSpan(AuctionDT.Ticks - DateTime.Now.Ticks);
+        double delta = Math.Abs(ts.TotalSeconds);
+
+
+        if (delta < 24 * HOUR)
+        return " 0 days";
+
+        if (delta < 48 * HOUR)
+        return "Tomorrow";
+
+        if (delta < 30 * DAY)
+        return ts.Days + " days from now";
+
+        if (delta < 12 * MONTH)
+        {
+        int months = Convert.ToInt32(Math.Floor((double)ts.Days / 30));
+        return months <= 1 ? "one month from now" : months + " months from now";
+        }
+        else
+        {
+        int years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
+        return years <= 1 ? "one year from now" : years + " years from now";
+        }
+    }
+}
+<div class='container'>
+    <div class='row mt-5'>
+        <h2 class='col-6'>Current Auctions</h2>
+        <p class='offset-2 col-2 mt-3'>Hi @ViewBag.ActiveUserFName</p>
+        <a href='/process/logout' class='col-2 mt-3'>Logout</a>
+    </div>
+    <div class='row'>
+        <table class='table'>
+            <thead class='thead-dark'>
+                <th>Product</th>
+                <th>Seller</th>
+                <th>Top Bid</th>
+                <th>Time Remaining</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                @{
+                    foreach(var product in ViewBag.Products){
+                        DateTime AuctionTime = product.EndDate;
+                        string FormattedDiff = CreateTimeString(AuctionTime);
+                        <tr>
+                            <td><form action='view/product' method='post'>
+                                <input type='hidden' name='productid' value=@product.ProductId>
+                                <button type='submit' value='submit' class='btn btn-light'>@product.ProductName</button>
+                            </form>
+                            </td>
+                            <td>@product.Seller.UserName</td>
+                            @{
+                                double MaxBid = @product.CurrentBid;
+                                string MaxBidderName = "No current bidders";
+                                foreach(var bidder in @product.Bidders_On){
+                                    if(bidder.user_bid > MaxBid){
+                                        MaxBid = bidder.user_bid;
+                                        MaxBidderName = bidder.User.FirstName;
+                                    }
+                                }
+                                <td>$ @MaxBid</td>
+                            }
+                            <td>@FormattedDiff</td>
+                            @{
+                                if(@ViewBag.ActiveUserId == product.SellerId){
+                                    <td>
+                                        <form action='process/delete' method='post'>
+                                            <input type='hidden' name='productid' value=@product.ProductId>
+                                            <button type='submit' value='submit' class='btn btn-danger'>Delete</button>
+                                        </form>
+                                    </td>
+                                }
+                            }
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='row'>
+        <a href='/auction/new' class='btn btn-success col-3'>New Auction</a>
+        <p class='offset-3'>Your Current Wallet: $@ViewBag.ActiveUserWallet</p>
+    </div>
+</div>

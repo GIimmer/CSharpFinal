@@ -1,0 +1,10 @@
+C:\Users\riley_000\Documents\Education\Coding Dojo\Week 9\3-Wednesday\CSharpFinal\obj\Debug\netcoreapp2.0\CSharpFinal.csproj.CoreCompileInputs.cache
+C:\Users\riley_000\Documents\Education\Coding Dojo\Week 9\3-Wednesday\CSharpFinal\obj\Debug\netcoreapp2.0\CSharpFinal.AssemblyInfoInputs.cache
+C:\Users\riley_000\Documents\Education\Coding Dojo\Week 9\3-Wednesday\CSharpFinal\obj\Debug\netcoreapp2.0\CSharpFinal.AssemblyInfo.cs
+C:\Users\riley_000\Documents\Education\Coding Dojo\Week 9\3-Wednesday\CSharpFinal\bin\Debug\netcoreapp2.0\CSharpFinal.deps.json
+C:\Users\riley_000\Documents\Education\Coding Dojo\Week 9\3-Wednesday\CSharpFinal\bin\Debug\netcoreapp2.0\CSharpFinal.runtimeconfig.json
+C:\Users\riley_000\Documents\Education\Coding Dojo\Week 9\3-Wednesday\CSharpFinal\bin\Debug\netcoreapp2.0\CSharpFinal.runtimeconfig.dev.json
+C:\Users\riley_000\Documents\Education\Coding Dojo\Week 9\3-Wednesday\CSharpFinal\bin\Debug\netcoreapp2.0\CSharpFinal.dll
+C:\Users\riley_000\Documents\Education\Coding Dojo\Week 9\3-Wednesday\CSharpFinal\bin\Debug\netcoreapp2.0\CSharpFinal.pdb
+C:\Users\riley_000\Documents\Education\Coding Dojo\Week 9\3-Wednesday\CSharpFinal\obj\Debug\netcoreapp2.0\CSharpFinal.dll
+C:\Users\riley_000\Documents\Education\Coding Dojo\Week 9\3-Wednesday\CSharpFinal\obj\Debug\netcoreapp2.0\CSharpFinal.pdb

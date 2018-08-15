@@ -1,0 +1,82 @@
+@model Product;
+@using System;
+@using System.Collections.Generic;
+@functions{
+    public static string CreateTimeString(DateTime AuctionDT){
+        const int SECOND = 1;
+        const int MINUTE = 60 * SECOND;
+        const int HOUR = 60 * MINUTE;
+        const int DAY = 24 * HOUR;
+        const int MONTH = 30 * DAY;
+
+        var ts = new TimeSpan(AuctionDT.Ticks - DateTime.Now.Ticks);
+        double delta = Math.Abs(ts.TotalSeconds);
+
+
+        if (delta < 24 * HOUR)
+        return " 0 days";
+
+        if (delta < 48 * HOUR)
+        return "One Day";
+
+        if (delta < 30 * DAY)
+        return ts.Days + " days from now";
+
+        if (delta < 12 * MONTH)
+        {
+        int months = Convert.ToInt32(Math.Floor((double)ts.Days / 30));
+        return months <= 1 ? "one month from now" : months + " months from now";
+        }
+        else
+        {
+        int years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
+        return years <= 1 ? "one year from now" : years + " years from now";
+        }
+    }
+}
+<div class='container'>
+    <div class='row mt-4'>
+        <h2 class='col-4'>@ViewBag.Product.ProductName</h2>
+        <p class='col-4'>Created by: @ViewBag.Product.Seller.FirstName</p>
+        <a href='/CurrentAuctions' class='col-2'>Home</a>
+        <a href='/process/logout' class='col-2'>Logout</a>
+    </div>
+    @{
+        DateTime AuctionTime = @ViewBag.Product.EndDate;
+        string FormattedDiff = CreateTimeString(AuctionTime);
+        <h4>Time Remaining: @FormattedDiff</h4>
+    }
+    <div class='row'>
+        <p class='col-6'>@ViewBag.Product.ProductDesc</p>
+    </div>
+    @{
+        double MaxBid = @ViewBag.Product.CurrentBid;
+        string MaxBidderName = "No current bidders";
+        foreach(var bidder in @ViewBag.Product.Bidders_On){
+            if(bidder.user_bid > MaxBid){
+                MaxBid = bidder.user_bid;
+                MaxBidderName = bidder.User.FirstName;
+            }
+        }
+        <div class='row'>
+                <p class='col-5'>Current Highest Bid:</p>
+                <p class='col-7'>By @MaxBidderName</p>
+                <p class='col-4 mt-2'>@MaxBid</p>
+        </div>
+        <div class='row'>
+            <div class='col-6 offfset-3'>
+                <form action='/process/new/bid' method='post' class='form-group'>
+                    <input type='hidden' name='productid' value='@ViewBag.Product.ProductId'>
+                    <input type='hidden' name='maxbid' value='@MaxBid'>
+                    <input type='number' name='userbid' min=0 step='0.01' class='form-control'>
+                    <button type='submit' class='btn btn-success'>Bid!!</button>
+                </form>
+            </div>
+        </div>
+    }
+    @{
+        if(ViewBag.Error != null){
+            <span class='text-danger'>@ViewBag.Error</span>
+        }
+    }
+</div>
